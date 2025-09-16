@@ -1,50 +1,44 @@
-import java.util.ArrayList;
-import java.util.List;
-
-public class Solution {
-
+class Solution {
     public int[][] solution(int n) {
-        // 1. 초기화
-        int x = 0;
-        int y = 0;
+        // 초기화
+        int[][] arr;
+        int x = 0, y = 0;
+        int num = 0;
+        int index = 0;
         int[] dx = {0, 1, 0, -1}; // 행 이동 (아래로 이동할 때 +1)
         int[] dy = {1, 0, -1, 0}; // 열 이동 (오른쪽으로 이동할 때 +1)
 
-        // 2. N=5일때, 달팽이
-        int num = 1;
-        int[][] arr = new int[n][n];
+        // 1. init
+        arr = new int[n][n];
+        arr[x][y] = ++num;
 
-        int index = 0;
-        int currentIndex = 0;
+        // 2. steps 만들기
+        int size = 2 * n - 1;
+        int[] steps = new int[size];
 
-        List<Integer> newSteps = new ArrayList<>();
-        int newN = n - 1; // 2
-        newSteps.add(newN); // 2
-        newSteps.add(newN); // 2
-        newSteps.add(newN); // 2
-        newN--; // 1
-
-        while (newN > 0) {
-            newSteps.add(newN);
-            newSteps.add(newN);
-            newN--;
+        steps[0] = n - 1;
+        for (int i = 1; i < steps.length; i = i + 2) {
+            steps[i] = n - 1;
+            if (i + 1 == steps.length) break;
+            steps[i + 1] = steps[i];
+            n--;
         }
 
-        // 2.1 예외 코드
-        arr[x][y] = 1;
 
-        // 2.2 공통 모듈
-        for (int k = 0; k < newSteps.size(); k++) {
-            currentIndex = index % 4;
-            index++;
-            for (int i = 0; i < newSteps.get(k); i++) {
-                x = x + dx[currentIndex]; // 0
-                y = y + dy[currentIndex]; // 1
+        // 3. 반복
+        for (int k = 0; k < steps.length; k++) {
+            for (int i = 0; i < steps[k]; i++) {
+                x = x + dx[index % 4]; // 0
+                y = y + dy[index % 4]; // 1
                 arr[x][y] = ++num;
             }
+            index++;
         }
-        return arr;
+
+        int[][] answer = arr;
+        return answer;
     }
+
 
     public static void main(String[] args) {
         Solution solution = new Solution();
