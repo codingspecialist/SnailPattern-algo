@@ -35,8 +35,7 @@ class Solution {
             index++;
         }
 
-        int[][] answer = arr;
-        return answer;
+        return arr;
     }
 
 
